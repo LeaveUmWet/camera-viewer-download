@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Third-Party Notices — Live View Wall</title>
+  <meta name="description" content="Draft Third-Party Notices for the Live View Wall Windows camera viewer. Not legal advice.">
+  <style>
+:root {
+  --bg: #0b0d12;
+  --bg-elev: #141821;
+  --bg-card: #1a1f2b;
+  --line: rgba(255,255,255,.08);
+  --line-strong: rgba(255,255,255,.16);
+  --text: #eef1f6;
+  --muted: #9aa3b5;
+  --faint: #6f788a;
+  --accent: #3ee0c2;
+  --warn: #f0c14a;
+  --warn-bg: rgba(240,193,74,.1);
+  --max: 860px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(62,224,194,.12), transparent 50%),
+    radial-gradient(800px 500px at -10% 20%, rgba(80,120,255,.1), transparent 45%),
+    var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+header, main, footer { width: min(var(--max), calc(100% - 40px)); margin-inline: auto; }
+header { display: flex; align-items: center; justify-content: space-between; padding: 28px 0 8px; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 12px; font-weight: 650; color: var(--text); text-decoration: none; }
+.brand:hover { text-decoration: none; }
+.mark {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: linear-gradient(145deg, #3ee0c2, #1b6e8f);
+  display: grid; place-items: center;
+}
+.mark svg { width: 20px; height: 20px; }
+.banner {
+  margin: 20px 0 0;
+  color: var(--warn); background: var(--warn-bg);
+  border: 1px solid rgba(240,193,74,.25); border-radius: 12px;
+  padding: 12px 14px; font-size: .95rem;
+}
+h1 { font-size: 1.85rem; letter-spacing: -.02em; line-height: 1.2; margin: 28px 0 16px; }
+h2 { font-size: 1.25rem; margin: 32px 0 12px; letter-spacing: -.01em; }
+h3 { font-size: 1.05rem; margin: 24px 0 8px; }
+p, li { color: var(--muted); }
+p { margin: 0 0 14px; }
+strong { color: var(--text); font-weight: 650; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 28px 0; }
+ul, ol { margin: 0 0 16px; padding-left: 1.3rem; }
+li { margin: 0 0 6px; }
+code, pre { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: .9em; }
+code { background: var(--bg-elev); border: 1px solid var(--line); padding: 1px 5px; border-radius: 6px; color: var(--text); }
+pre { background: var(--bg-card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; overflow: auto; color: var(--text); }
+pre code { background: none; border: 0; padding: 0; }
+table { width: 100%; border-collapse: collapse; margin: 0 0 18px; font-size: .92rem; }
+th, td { text-align: left; vertical-align: top; padding: 8px 10px; border: 1px solid var(--line-strong); color: var(--muted); }
+th { color: var(--text); background: var(--bg-elev); }
+footer { padding: 40px 0 56px; color: var(--faint); font-size: .9rem; border-top: 1px solid var(--line); margin-top: 40px; }
+.legal-links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 14px 0; }
+</style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="index.html">
+    <div class="mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#04231d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 8h10a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z"/>
+        <path d="M16 11l6-3v10l-6-3"/>
+      </svg>
+    </div>
+
+      Live View Wall
+    </a>
+    <a href="index.html">Back to download</a>
+  </header>
+  <main>
+    <div class="banner" role="note"><strong>Draft — not legal advice.</strong> This page is a starting draft dated November 24, 2026. It has not been reviewed by a lawyer, placeholders such as contact email still need to be filled in, and it should not be relied on as a final policy or contract.</div>
+    <h1>Third-Party Notices — Live View Wall</h1>
+<p><strong>DRAFT — not legal advice.</strong> Prepared November 24, 2026. License identifications below were checked against upstream repositories and official pages on that date. They are a <strong>planning list</strong>, not a complete attribution file for a shipping installer.</p>
+<p><strong>Why this is incomplete.</strong> The private repo <code>LeaveUmWet/Reolink</code> currently contains design documents only (README, <code>docs/</code>, a phase-1 prompt). There is **no <code>package-lock.json</code>, <code>pnpm-lock.yaml</code>, <code>yarn.lock</code>, or <code>Cargo.lock</code>** to inventory. Do not ship an About screen that pretends this list is exhaustive.</p>
+<p><strong>Before the first public installer</strong>, generate the real list from the build that will actually ship:</p>
+<ul><li>JavaScript / Node: <code>npx license-checker --production --csv</code> (or <code>license-checker-rseidelsohn</code>) against the lockfile, and keep the output in this folder.</li><li>Rust / Tauri: <a href="https://github.com/EmbarkStudios/cargo-about"><code>cargo-about</code></a> (or <code>cargo-deny</code> + <code>cargo license</code>) against <code>src-tauri</code>.</li><li>Sidecars (FFmpeg, go2rtc, whisper.cpp, Piper, and any model or voice files): list each binary, its exact version, the license of <strong>that build</strong>, and where source is offered.</li></ul>
+<p>Until that inventory exists, treat every row as “planned or likely,” not “confirmed bundled.”</p>
+<p><strong>Where notices must appear</strong> (once the inventory is final):</p>
+<table><thead><tr><th>Place</th><th>What to include</th></tr></thead><tbody><tr><td>A <code>LICENSE</code> or <code>NOTICE</code> / <code>THIRD-PARTY-NOTICES</code> file in the installer and in the public download repo</td><td>Copyright lines and license texts (or links, if a license allows and the full text is also shipped)</td></tr><tr><td>In-app <strong>About / Legal</strong> screen</td><td>Short names, licenses, required attribution sentences, and a button that opens the full notices file</td></tr><tr><td>Landing page footer</td><td>Link to <code>notices.html</code></td></tr><tr><td>Download page / website, if FFmpeg is distributed</td><td>The sentence FFmpeg asks for on pages that offer the download (see FFmpeg row)</td></tr><tr><td>EULA (§ 8 of <code>terms-of-service.md</code>)</td><td>FFmpeg ownership disclaimer and the limited reverse-engineering carve-out required for LGPL compliance</td></tr></tbody></table>
+<hr>
+<h2>Planned or likely components</h2>
+<h3>go2rtc (if bundled)</h3>
+<ul><li><strong>Upstream:</strong> <a href="https://github.com/AlexxIT/go2rtc">github.com/AlexxIT/go2rtc</a></li><li><strong>License:</strong> MIT (verified from the project <code>LICENSE</code> on 24 November 2026). Copyright (c) 2022 Alexey Khit.</li><li><strong>Notice must appear:</strong> installer NOTICE file and About screen. Include the copyright and MIT permission notice.</li><li><strong>Notes:</strong> The camera-protocol research plan recommends bundling go2rtc to transcode or remux streams for the window. Confirm whether the shipping build actually includes it.</li></ul>
+<h3>onvif (npm package, if used)</h3>
+<ul><li><strong>Likely package:</strong> <a href="https://www.npmjs.com/package/onvif"><code>onvif</code> on npm</a>, upstream <a href="https://github.com/agsh/onvif">github.com/agsh/onvif</a></li><li><strong>License:</strong> MIT (verified from the project <code>LICENSE</code> on 24 November 2026). Copyright (c) 2018 Andrew Laptev.</li><li><strong>Notice must appear:</strong> NOTICE file and About screen, plus any other MIT packages the lockfile reveals.</li><li><strong>Notes:</strong> Confirm the exact package name and version from <code>package.json</code>. There are other ONVIF libraries; do not assume this one until the lockfile exists.</li></ul>
+<h3>Tauri</h3>
+<ul><li><strong>Upstream:</strong> <a href="https://github.com/tauri-apps/tauri">github.com/tauri-apps/tauri</a></li><li><strong>License:</strong> dual <strong>MIT OR Apache-2.0</strong> (project license files).</li><li><strong>Notice must appear:</strong> NOTICE file (both license texts or a clear dual-license statement, plus copyright), About screen.</li><li><strong>Notes:</strong> Run <code>cargo-about</code> so Tauri’s own Rust dependencies (hundreds of crates) are listed. Apache-2.0 crates also require preservation of NOTICE files from those crates.</li></ul>
+<h3>Microsoft Edge WebView2 Runtime</h3>
+<ul><li><strong>Docs:</strong> <a href="https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/distribution">Distribute your app and the WebView2 Runtime</a></li><li><strong>License:</strong> Microsoft software license terms for the WebView2 Runtime and SDK (not an open-source license). A production WebView2 app must use the <strong>WebView2 Runtime</strong>, not the Microsoft Edge Stable browser, as the backing web platform.</li><li><strong>Redistribution (practical rule):</strong> The usual path is the <strong>Evergreen</strong> Runtime: detect whether it is already installed (it is present on most Windows 10/11 PCs) and, if not, run Microsoft’s official <strong>bootstrapper</strong> or offline installer. Do not treat the Runtime as something you rebrand or redistribute as a standalone product. The <strong>Fixed Version</strong> Runtime, if used, has stricter packaging rules (files you must ship, no running from a UNC path, and you must service it yourself).</li><li><strong>Notice must appear:</strong> About screen (“This app uses the Microsoft Edge WebView2 Runtime”) and a link to Microsoft’s terms. The installer should also present or link to Microsoft’s terms if it installs the Runtime.</li><li><strong>Notes:</strong> Confirm Evergreen vs Fixed Version in the shipping installer.</li></ul>
+<h3>FFmpeg (if bundled as a Tauri sidecar)</h3>
+<ul><li><strong>Upstream / legal page:</strong> <a href="https://ffmpeg.org/legal.html">ffmpeg.org/legal.html</a></li><li><strong>Default license:</strong> LGPL 2.1 or later. Optional parts are GPL 2 or later; <strong>if those parts are enabled, GPL applies to that FFmpeg build.</strong> FFmpeg is not offered under a paid proprietary license.</li><li><strong>Notice must appear:</strong> - About box: “This software uses libraries from the FFmpeg project under the LGPLv2.1” (only if that is the actual build license). - Every website page that offers the download, per FFmpeg’s checklist: “This software uses code of FFmpeg licensed under the LGPLv2.1 and its source can be downloaded here” plus a working source link. - EULA: we do not own FFmpeg; limited reverse-engineering right to relink LGPL libraries; spell <strong>FFmpeg</strong> correctly.</li><li><strong>Compliance work before shipping a sidecar:</strong> 1. Build or obtain an FFmpeg binary compiled <strong>without</strong> <code>--enable-gpl</code> and <strong>without</strong> <code>--enable-nonfree</code>, unless you are prepared to license the <strong>entire app</strong> under the GPL (almost certainly not the intent). 2. Do not link in GPL libraries such as <strong>libx264</strong> / <strong>libx265</strong>. 3. Prefer <strong>dynamic</strong> linking (DLLs) so the user can relink. 4. Ship or host the <strong>exact corresponding FFmpeg source</strong>, configure line, and any patches, alongside the installer. 5. Do not rename <code>avcodec.dll</code> and similar to obfuscated names. 6. Audit filters used by the product. The phase-1 prompt mentions <code>drawtext</code> and <code>v360</code>. Upstream comments treat <code>drawtext</code> as usable in an LGPL build, but <strong>you must confirm the actual binary</strong>. If a required filter forces <code>--enable-gpl</code>, change the feature or get legal advice — do not silently ship a GPL FFmpeg inside a proprietary exe.</li><li><strong>Patents.</strong> FFmpeg’s legal page warns that commercial use of patented codecs (including H.264 / MPEG-related technology) can attract licensing claims (for example from MPEG LA). This is a <strong>lawyer and insurance</strong> item for paid sales, not something a NOTICE file solves.</li><li><strong>Trademark.</strong> FFmpeg is a trademark of Fabrice Bellard.</li></ul>
+<h3>Ollama (not bundled in the Windows exe)</h3>
+<ul><li><strong>Upstream:</strong> <a href="https://github.com/ollama/ollama">github.com/ollama/ollama</a></li><li><strong>License:</strong> MIT (verified from the project <code>LICENSE</code> on 24 November 2026). Copyright (c) Ollama.</li><li><strong>Notice must appear:</strong> About / notices, even though the viewer exe is not supposed to ship Ollama. The operator (and later, any customer who hosts a local model) installs Ollama separately.</li><li><strong>Notes:</strong> Ollama’s MIT license does <strong>not</strong> replace the license of the model you pull (Llama 3.2 has its own terms).</li></ul>
+<h3>Llama 3.2 (model weights; not distributed inside the exe)</h3>
+<ul><li><strong>License:</strong> <a href="https://github.com/meta-llama/llama-models/blob/main/models/llama3_2/LICENSE">Llama 3.2 Community License</a>, release date 25 September 2024.</li><li><strong>Acceptable Use Policy (incorporated into the license):</strong> <a href="https://www.llama.com/llama3_2/use-policy">llama.com/llama3_2/use-policy</a>. Use of the materials must follow the AUP even when you do not redistribute weights. The AUP notably prohibits representing that outputs are human-generated, and requires disclosing known dangers of the AI system — which is one reason Ara’s intro disclosure and “may be wrong” note exist.</li><li><strong>“Built with Llama” attribution.</strong> Section 1.b.i requires that if you “distribute or make available the Llama Materials (or any derivative works thereof), <strong>or a product or service (including another AI model) that contains any of them</strong>,” you must (A) provide a copy of the Agreement with those materials and (B) <strong>prominently display “Built with Llama”</strong> on a related website, UI, blog post, about page, or product documentation. Section 1.b.iii also requires a Notice file attribution if you distribute copies of the materials: “Llama 3.2 is licensed under the Llama 3.2 Community License, Copyright © Meta Platforms, Inc. All Rights Reserved.”</li><li><strong>Judgment on whether attribution applies when weights are not in the installer.</strong> The Windows exe does not ship the weights. Ara still <strong>makes a product or service available that uses</strong> Llama 3.2 when the assistant is turned on and talks to Ollama on G-Tech (or on a later host). The conservative reading is that <strong>“Built with Llama” should appear</strong> on the About screen, the notices page, and (if Ara is advertised) the landing page, and that a copy of the Community License and AUP should be linked there. This is cheap and avoids a close call. If Ara is disabled and no Llama host is used, the About screen can still mention the optional assistant. Meta’s 700-million-MAU additional terms are not a practical concern at this scale.</li><li><strong>Do not fine-tune or rename a derivative model</strong> without also following the “Llama” naming rule in Section 1.b.i.</li></ul>
+<h3>whisper.cpp (if used for speech-to-text)</h3>
+<ul><li><strong>Upstream:</strong> <a href="https://github.com/ggml-org/whisper.cpp">github.com/ggml-org/whisper.cpp</a></li><li><strong>License:</strong> MIT (verified from the project <code>LICENSE</code> on 24 November 2026). Copyright (c) 2023–2026 The ggml authors.</li><li><strong>Notice must appear:</strong> NOTICE file and About screen if the binary or library is shipped, plus the license of any <strong>GGML / Whisper model weights</strong> you bundle (those are separate from the engine).</li></ul>
+<h3>Piper or other text-to-speech (if used)</h3>
+<ul><li><strong>Older engine:</strong> <a href="https://github.com/rhasspy/piper">github.com/rhasspy/piper</a> was MIT-licensed and is archived.</li><li><strong>Successor:</strong> <a href="https://github.com/OHF-Voice/piper1-gpl">github.com/OHF-Voice/piper1-gpl</a> is <strong>GPL-3.0-or-later</strong>. Bundling that successor in a proprietary Tauri app would raise a serious copyleft problem.</li><li><strong>Voices:</strong> each voice has its own license, usually documented in that voice’s <code>MODEL_CARD</code>. Do not assume the engine license covers the voice.</li><li><strong>Recommendation:</strong> if voice is shipped, use an engine and voice whose licenses are compatible with a closed-source app (for example the archived MIT Piper, or another MIT/Apache engine), record the exact versions, and include each voice’s license in this file. Do <strong>not</strong> bundle <code>piper1-gpl</code> without a lawyer’s blessing or a decision to GPL the app. Alternative engines mentioned in the project plan (for example VoiceStudio) must be checked the same way before use.</li></ul>
+<h3>Other items that will almost certainly appear</h3>
+<ul><li><strong>Node.js</strong> (if a Node runtime is packaged): MIT. Include the Node license and any bundled npm licenses from the lockfile.</li><li><strong>interact.js</strong> (drag/resize, if used): check the lockfile; historically MIT.</li><li><strong>sqlite-vec</strong>, <strong>LanceDB</strong>, or similar, if the RAG index is built into the app: take the license from the chosen library.</li><li><strong>nomic-embed-text</strong> (if used as the embedder): the model has its own terms, separate from Ollama.</li><li>Ordinary npm and crates.io transitive dependencies: list from the generators above.</li></ul>
+<hr>
+<h2>Suggested About-screen short block (once confirmed)</h2>
+<pre><code>Live View Wall includes or may use third-party software.
+See Third-Party Notices for copyright and license details.
+
+This software may use libraries from the FFmpeg project under the
+LGPLv2.1. FFmpeg source for the binaries we distribute is at:
+[URL]. FFmpeg is a trademark of Fabrice Bellard. We do not own FFmpeg.
+
+Built with Llama. Llama 3.2 is licensed under the Llama 3.2 Community
+License, Copyright © Meta Platforms, Inc. All Rights Reserved.
+https://www.llama.com/llama3_2/use-policy
+
+This app uses the Microsoft Edge WebView2 Runtime.</code></pre>
+<p>Remove any sentence that does not match the shipping build (for example, drop the FFmpeg sentences if go2rtc is used instead and FFmpeg is not shipped).</p>
+  </main>
+  <footer>
+    <nav class="legal-links" aria-label="Legal">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Use</a>
+      <a href="notices.html">Third-Party Notices</a>
+    </nav>
+    <p>Live View Wall beta. These legal pages are drafts for review.</p>
+  </footer>
+</body>
+</html>

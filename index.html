@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Live View Wall — Windows camera viewer (beta)</title>
+  <meta name="description" content="A Windows camera viewer for property managers and contractors. Single-camera live view in this beta; a multi-camera wall is coming. Reolink today, with ONVIF and brand presets planned. Free local beta — no subscription.">
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --bg-elev: #141821;
+      --bg-card: #1a1f2b;
+      --line: rgba(255,255,255,.08);
+      --line-strong: rgba(255,255,255,.16);
+      --text: #eef1f6;
+      --muted: #9aa3b5;
+      --faint: #6f788a;
+      --accent: #3ee0c2;
+      --accent-dim: #1a8f7c;
+      --accent-bg: rgba(62,224,194,.12);
+      --warn: #f0c14a;
+      --warn-bg: rgba(240,193,74,.1);
+      --danger-dim: #ff8b7a;
+      --shadow: 0 20px 50px rgba(0,0,0,.35);
+      --radius: 16px;
+      --max: 1080px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background:
+        radial-gradient(1200px 600px at 80% -10%, rgba(62,224,194,.12), transparent 50%),
+        radial-gradient(800px 500px at -10% 20%, rgba(80,120,255,.1), transparent 45%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    header, main, footer { width: min(var(--max), calc(100% - 40px)); margin-inline: auto; }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 0 8px;
+      gap: 16px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 650; letter-spacing: .01em; }
+    .mark {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(145deg, #3ee0c2, #1b6e8f);
+      display: grid; place-items: center;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.08), 0 8px 20px rgba(62,224,194,.2);
+    }
+    .mark svg { width: 20px; height: 20px; }
+    .badge {
+      font-size: 12px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase;
+      color: var(--accent); background: var(--accent-bg);
+      border: 1px solid rgba(62,224,194,.25);
+      padding: 4px 9px; border-radius: 999px;
+    }
+    .hero { padding: 48px 0 24px; display: grid; gap: 28px; }
+    @media (min-width: 860px) {
+      .hero { grid-template-columns: 1.15fr .85fr; align-items: center; padding-top: 72px; }
+    }
+    h1 {
+      font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+      line-height: 1.08; letter-spacing: -.03em; margin: 0 0 16px;
+    }
+    .lead { font-size: 1.15rem; color: var(--muted); margin: 0 0 28px; max-width: 38rem; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      border-radius: 999px; padding: 14px 22px; font-weight: 650; font-size: 1rem;
+      border: 1px solid transparent; cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--accent); color: #04231d;
+      box-shadow: 0 10px 30px rgba(62,224,194,.25);
+    }
+    .btn-primary:hover { filter: brightness(1.05); text-decoration: none; }
+    .btn-ghost {
+      background: transparent; color: var(--text);
+      border-color: var(--line-strong);
+    }
+    .btn-ghost:hover { border-color: var(--accent); text-decoration: none; }
+    .fine { font-size: .9rem; color: var(--faint); margin-top: 14px; }
+    .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid var(--line);
+      border-radius: 20px; padding: 22px; box-shadow: var(--shadow);
+    }
+    .wall {
+      display: grid; grid-template-columns: 1fr; gap: 8px;
+      aspect-ratio: 16/10; background: #07090e; border-radius: 12px; padding: 8px;
+      border: 1px solid var(--line);
+    }
+    .tile {
+      background:
+        linear-gradient(180deg, rgba(62,224,194,.08), transparent 40%),
+        repeating-linear-gradient(90deg, transparent, transparent 18px, rgba(255,255,255,.03) 19px),
+        #10141c;
+      border-radius: 8px; position: relative; overflow: hidden;
+    }
+    .tile::after {
+      content: ""; position: absolute; inset: auto 10px 10px 10px; height: 6px;
+      border-radius: 99px; background: rgba(62,224,194,.35);
+    }
+    .tile span {
+      position: absolute; left: 10px; top: 10px; font-size: 11px; color: #c9d0dc;
+      background: rgba(0,0,0,.45); padding: 2px 7px; border-radius: 999px;
+    }
+    .caption { margin: 14px 0 0; color: var(--muted); font-size: .9rem; }
+    section { padding: 28px 0; }
+    h2 { font-size: 1.45rem; letter-spacing: -.02em; margin: 0 0 12px; }
+    .grid { display: grid; gap: 16px; }
+    @media (min-width: 760px) { .grid.cols-3 { grid-template-columns: repeat(3, 1fr); } }
+    .card {
+      background: var(--bg-card); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 20px 20px 18px;
+    }
+    .card h3 { margin: 0 0 8px; font-size: 1.05rem; }
+    .card p { margin: 0; color: var(--muted); }
+    .brands { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .chip {
+      font-size: .82rem; color: var(--text); background: var(--bg-elev);
+      border: 1px solid var(--line-strong); padding: 6px 10px; border-radius: 999px;
+    }
+    .chip.soon { color: var(--muted); }
+    .chip.no { color: var(--faint); text-decoration: line-through; text-decoration-color: rgba(255,139,122,.5); }
+    .ara {
+      background: var(--bg-card); border: 1px solid var(--line);
+      border-radius: 20px; padding: 28px; box-shadow: var(--shadow);
+    }
+    ol.lines { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 12px; counter-reset: line; }
+    ol.lines li {
+      counter-increment: line; background: #121722; border: 1px solid var(--line);
+      border-radius: 12px; padding: 14px 16px 14px 56px; position: relative; color: var(--text);
+    }
+    ol.lines li::before {
+      content: counter(line); position: absolute; left: 14px; top: 14px;
+      width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center;
+      background: var(--accent-bg); color: var(--accent); font-weight: 700; font-size: .85rem;
+    }
+    .note {
+      margin-top: 16px; color: var(--warn); background: var(--warn-bg);
+      border: 1px solid rgba(240,193,74,.25); border-radius: 12px; padding: 12px 14px; font-size: .95rem;
+    }
+    .callout {
+      border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px;
+      background: var(--bg-elev); color: var(--muted);
+    }
+    .callout strong { color: var(--text); }
+    footer { padding: 40px 0 56px; color: var(--faint); font-size: .9rem; border-top: 1px solid var(--line); margin-top: 24px; }
+    .legal-links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 14px 0 10px; }
+    .warranty { color: var(--muted); }
+    .legal-draft { margin: 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#04231d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 8h10a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z"/>
+          <path d="M16 11l6-3v10l-6-3"/>
+          <circle cx="8" cy="13.5" r="1.4" fill="#04231d" stroke="none"/>
+        </svg>
+      </div>
+      Live View Wall
+    </div>
+    <span class="badge">Windows beta</span>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <h1>Single-camera live view in this beta.</h1>
+        <p class="lead">A Windows viewer for property managers and contractors. This beta shows one Reolink camera or NVR channel live on your PC. A multi-camera wall is coming.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://github.com/LeaveUmWet/camera-viewer-download/releases/latest/download/Reolink.Live.View.Wall_0.1.0_x64-setup.exe">Download for Windows (beta)</a>
+          <a class="btn btn-ghost" href="https://github.com/LeaveUmWet/camera-viewer-download/releases/latest">View release notes</a>
+        </div>
+        <p class="fine">Free local beta. No subscription. Windows 10 or 11, 64-bit. Installer is about 66 MB.</p>
+      </div>
+      <div class="panel">
+        <div class="wall" aria-hidden="true">
+          <div class="tile"><span>Front gate</span></div>
+        </div>
+        <p class="caption">Built as a desktop app for Windows, not a cloud camera service. When you connect by local IP or RTSP, video stays on your network. If you connect by Reolink UID and leave server assistance on, video and login traffic may pass through Reolink’s servers.</p>
+      </div>
+    </div>
+
+    <section>
+      <h2>What this beta does</h2>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>Reolink, first</h3>
+          <p>Connect a camera or NVR by local IP and RTSP, or by Reolink UID. Test the connection, then watch a live tile on one screen.</p>
+        </div>
+        <div class="card">
+          <h3>Made for job sites</h3>
+          <p>Aimed at property managers and contractors who need a simple live view, saved logins, and a Windows installer — not another browser tab. This beta is one camera; a multi-camera wall is coming.</p>
+        </div>
+        <div class="card">
+          <h3>Local, no monthly fee</h3>
+          <p>The app runs on your PC. Camera passwords stay on that computer. There is no cloud subscription for the viewer itself.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Camera support</h2>
+      <p class="lead" style="margin-bottom:12px">This beta is Reolink-only. Other brands are planned, and some cloud-only brands will not be supported.</p>
+      <div class="brands">
+        <span class="chip">Reolink — in this beta</span>
+        <span class="chip soon">ONVIF (generic / no-name IP cameras) — planned</span>
+        <span class="chip soon">Hikvision — planned</span>
+        <span class="chip soon">Dahua — planned</span>
+        <span class="chip soon">Amcrest — planned</span>
+        <span class="chip soon">Annke — planned</span>
+        <span class="chip soon">Axis — planned</span>
+        <span class="chip soon">Uniview — planned</span>
+        <span class="chip soon">Foscam — planned</span>
+        <span class="chip soon">Tapo — planned</span>
+        <span class="chip soon">Lorex — planned</span>
+        <span class="chip no">Nest — not supported</span>
+        <span class="chip no">Ring — not supported</span>
+        <span class="chip no">Arlo — not supported</span>
+        <span class="chip no">Blink — not supported</span>
+        <span class="chip no">Kasa — not supported</span>
+        <span class="chip no">SimpliSafe — not supported</span>
+      </div>
+      <p class="fine">Brand presets and ONVIF auto-discovery are on the roadmap. UniFi Protect, EZVIZ, and some Eufy, Wyze, Swann, and Zosi models may come later. This app does not claim to work with Nest or Ring.</p>
+    </section>
+
+    <section id="ara">
+      <div class="ara">
+        <h2>Meet Ara</h2>
+        <p style="color:var(--muted);margin:0">Ara is the setup assistant. When it is available in the app, it will speak this fixed intro before any questions begin:</p>
+        <ol class="lines">
+          <li>“Welcome to your ultimate camera viewer. My name is Ara. I'm here to help you set this up today.”</li>
+          <li>“Would you like to have this as a voice conversation or a typing?”</li>
+          <li>“Let's get your system set up today.”</li>
+          <li>“Just so you know, I'm an AI assistant. Double-check any settings before you apply them.”</li>
+        </ol>
+        <p style="color:var(--muted);margin:16px 0 0">Ara is an AI assistant, not a person. Its answers can be wrong, so you should verify any settings before you apply them.</p>
+        <p class="note"><strong>Not in this Windows beta (v0.1.0).</strong> The current installer opens a password setup and sign-in screen, then a camera form. Ara’s greeting, the voice-or-typing choice, and setup Q&amp;A are planned and are not in the build dated October 24, 2026.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>System requirements</h2>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>Windows 10 or 11</h3>
+          <p>64-bit PC. The installer is named <code style="color:var(--text)">Reolink.Live.View.Wall_0.1.0_x64-setup.exe</code>.</p>
+        </div>
+        <div class="card">
+          <h3>WebView2</h3>
+          <p>The app uses Microsoft Edge WebView2, which is already on most Windows 10/11 PCs. If it is missing, the installer can download it.</p>
+        </div>
+        <div class="card">
+          <h3>Your cameras’ network</h3>
+          <p>This PC needs to reach the camera or NVR (same LAN, or a path the camera already uses). No account on this website is required to download.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>If Windows says the app is unrecognized</h2>
+      <div class="callout">
+        <p style="margin:0 0 10px">This beta is not yet signed with a paid code-signing certificate, so Microsoft Defender SmartScreen may show a blue box:</p>
+        <p style="margin:0 0 10px"><strong>Windows protected your PC</strong><br>Microsoft Defender SmartScreen prevented an unrecognized app from starting. Running this app might put your PC at risk.</p>
+        <p style="margin:0">Click <strong>More info</strong>, check that the file is the Live View Wall installer you just downloaded, then click <strong>Run anyway</strong>. Click <strong>Don't run</strong> if the file name looks wrong. This warning is expected for a new, unsigned app. It does not mean the file failed a virus scan.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Live View Wall is a Windows beta from Frank Peluso / LeaveUmWet. This page and the installer are free to test. Source code is not published here. This beta is a single-camera live view; a multi-camera wall, Ara, ONVIF, and brand presets are planned and are labeled as such.</p>
+    <p class="warranty"><strong>Beta for testing. No warranty.</strong> The software is provided as-is, without any promise that it will work for a particular camera, site, or purpose. You are responsible for how you use it, including any recording or privacy rules that apply at your location.</p>
+    <p>Privacy: the app runs on your PC and stores camera passwords on that computer. When you connect by local IP or RTSP, video stays on your network. If you connect by Reolink UID and leave server assistance on, video and login traffic may pass through Reolink’s servers.</p>
+    <nav class="legal-links" aria-label="Legal">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Use</a>
+      <a href="notices.html">Third-Party Notices</a>
+    </nav>
+    <p class="legal-draft">The legal pages are drafts, not legal advice, and have not been reviewed by a lawyer.</p>
+  </footer>
+</body>
+</html>
